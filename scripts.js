@@ -1,13 +1,13 @@
-
 var countries = new Array();
 
 $(document).ready(function(){
+	for(var i = 0 ; i < clicked.length; i++ ){clicked[i] = false; }
 	var countries = new Array();
 	
 	$.ajax({
-    url: "get_current_date.php",
-    success: function(result){
-    $("#date").html(result);
+		url: "get_current_date.php",
+		success: function(result){
+			$("#date").html(result);
     }
 	});
 	
@@ -24,23 +24,21 @@ function showAlphabet(){
 	var res = String.fromCharCode(i);
 	temp.setAttribute("id", i);
 	temp.innerHTML = res;
-	temp.setAttribute("onclick","show("+i+")" );
+	temp.setAttribute("onclick","showCountries("+i+")" );
 	document.getElementById("text").appendChild(temp);
-	
-	}	
-	
+	}		
 }
 
-function show(i){
+function showCountries(i){
 	
 	var old_table = document.getElementById("table");
 	var old_class = 0;
 	if(old_table != 'undefined' && old_table != null){
 		old_class = old_table.className;
-	   document.getElementById("table").remove();
+		document.getElementById("table").remove();
 	}
    
-    if(old_class == i )
+        if(old_class == i )
 	   return;
 	
 
@@ -54,102 +52,92 @@ function show(i){
 	for( var j = 0 ; j< countries.length ; j++ ){
 		if( countries[j].name[0] == String.fromCharCode(i)){
 			if(first){
-				
-                var Country = document.createElement("th");
+				var Country = document.createElement("th");
 				var details = document.createElement("th");
-	            Country.innerHTML = "Country";
+	                        Country.innerHTML = "Country";
 				details.innerHTML = "details"
-	            table.appendChild(Country);
+	                        table.appendChild(Country);
 				table.appendChild(details);
 				first = false;
 			}
 				
 			var tr = document.createElement("TR");
-		   table.appendChild(tr);
-		    var name = document.createElement("TD");
+		        table.appendChild(tr);
+		        var name = document.createElement("TD");
 			var more = document.createElement("TD");
 			var click = document.createElement("BOTTUN");
 			click.setAttribute("id" , 'c'+j);
 			click.setAttribute("onclick" , "more_details("+j+")" );
 			click.innerHTML = "<b><u>click here</u></b>";
-	        name.innerHTML= countries[j].name;
+	                name.innerHTML= countries[j].name;
 			
 			
-	        tr.appendChild(name);
+	                tr.appendChild(name);
 			tr.appendChild(more);
 			more.appendChild(click);
 		}
 	}
-
-    document.getElementById("text").appendChild(table); 
 	
+	document.getElementById("text").appendChild(table); 
 	var temp = document.getElementById(i);
-	temp.setAttribute("onclick","show("+i+")" );	
-	 
+	temp.setAttribute("onclick","showCountries("+i+")" );	
 	
 	}
 	
 	
 	
 function loadData() {
-	
-	
 	$.ajax('https://travelbriefing.org/countries.json',
 	{
-    dataType: 'json',
+	dataType: 'json',
 	timeout: 500000,
-    success: function(response){
-	response.forEach( function( country , index ) {
+        success: function(response){
+		response.forEach( function( country , index ) {
 		countries[index] = {};
 		countries[index].name = country.name;
 		countries[index].url = country.url;
 	} );
+	    
 	},
+		
 	error: function (jqXhr , textStatus, errorMessage){
 	$('p').append('Error: ' +errorMessage);
+		
 	}
+		
 	});
 
 	}
 	
 function more_details(index){
-	
-	
+    
 	$.ajax(countries[index].url,
 	{
 	 dataType: 'json',
 	 timeout: 500000,
-     success: function(response){
-		 
-    var data = document.getElementById('c'+index).innerHTML ; 
-	console.log("text");
-	console.log(data.innerText.length);
-	if( data.innerText.length > 10 ){
-		document.getElementById('c'+index).innerHTML = "<b><u>click here</u></b>";
-		return;
-	}
+	 success: function(response){
+   
 		 	  
 	 //Languages
 	document.getElementById('c'+index).innerHTML = "<u>Languages:</u> ";
 	response.language.forEach( function (item,i){
 		document.getElementById('c'+index).innerHTML +=  item.language;
-	if(i < response.language.length-1 )
+		if(i < response.language.length-1 )
 		document.getElementById('c'+index).innerHTML += ",";
-	else{document.getElementById('c'+index).innerHTML += ' .';}
+		else{ document.getElementById('c'+index).innerHTML += ' .'; }
 	});
 	
 	
 	//Currency
 	document.getElementById('c'+index).innerHTML += "<br> <u>Currency:</u> ";
-
 	document.getElementById('c'+index).innerHTML += "<br>Name: ";
-	if(response.currency.name != null){
-	 document.getElementById('c'+index).innerHTML += response.currency.name; 
-	}
+	if(response.currency.name !== null){
+	 document.getElementById('c'+index).innerHTML += response.currency.name; }
 	document.getElementById('c'+index).innerHTML += "<br>Symbol: ";
-	if(response.currency.symbol != null){document.getElementById('c'+index).innerHTML +=response.currency.symbol;}
+	if(response.currency.symbol !== null){
+		document.getElementById('c'+index).innerHTML +=response.currency.symbol; }
 	document.getElementById('c'+index).innerHTML += "<br>Rate: ";
-	if(response.currency.rate != null){
+	if(response.currency.rate !== null){
 	    document.getElementById('c'+index).innerHTML +="$"+response.currency.rate;}
 	
 	//Neighbors
@@ -157,10 +145,10 @@ function more_details(index){
 	
 	response.neighbors.forEach(function(item , i){
 		
-		document.getElementById('c'+index).innerHTML +=  item.name;
+	document.getElementById('c'+index).innerHTML +=  item.name;
 	if(index < response.neighbors.length-1 )
 		document.getElementById('c'+index).innerHTML += ", ";
-	else{document.getElementById('c'+index).innerHTML += ' .';}
+	else{ document.getElementById('c'+index).innerHTML += ' .'; }
 	
 	} );
 	
@@ -171,13 +159,15 @@ function more_details(index){
 	var month = date[3]+date[4];
 	document.getElementById('c'+index).innerHTML += response.weather[getMonth(month)].tAvg;
    
+   
+  
   },
   
 error: function (jqXhr , textStatus, errorMessage){
 	$('p').append('Error: ' +errorMessage);
 	}
 	});
-
+	
 }
 
 function getMonth(month){
