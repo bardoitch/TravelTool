@@ -169,7 +169,7 @@ function more_details(index){
 	document.getElementById('c'+index).innerHTML += "<br><u>Average temperature in the current month:</u> " ;
 	var date = document.getElementById("date").textContent;
 	var month = date[3]+date[4];
-	document.getElementById('c'+index).innerHTML += response.weather[getmonth(month)].tAvg;
+	document.getElementById('c'+index).innerHTML += response.weather[getMonth(month)].tAvg;
    
   },
   
@@ -180,7 +180,7 @@ error: function (jqXhr , textStatus, errorMessage){
 
 }
 
-function getmonth(month){
+function getMonth(month){
 if(month === '01'){return January };
 if(month === '02'){return "February" };
 if(month === '03'){return 'March' };
