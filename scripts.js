@@ -1,7 +1,6 @@
 var countries = new Array();
 
 $(document).ready(function(){
-	for(var i = 0 ; i < clicked.length; i++ ){clicked[i] = false; }
 	var countries = new Array();
 	
 	$.ajax({
