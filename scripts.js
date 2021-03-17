@@ -19,8 +19,7 @@ $(document).ready(function(){
 
 
 function showAlphabet(){
-	var i;;
-	for(i = 65 ; i<=90; i++){
+	for(var i = 65 ; i<=90; i++){
 	var temp = document.createElement("BUTTON");
 	var res = String.fromCharCode(i);
 	temp.setAttribute("id", i);
