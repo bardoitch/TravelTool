@@ -137,7 +137,7 @@ function more_details(index){
 		document.getElementById('c'+index).innerHTML +=response.currency.symbol; }
 	document.getElementById('c'+index).innerHTML += "<br>Rate: ";
 	if(response.currency.rate !== null){
-	    document.getElementById('c'+index).innerHTML +="$"+response.currency.rate;}
+	    document.getElementById('c'+index).innerHTML +=response.currency.rate;}
 	
 	//Neighbors
 	document.getElementById('c'+index).innerHTML += " .<br><u> Neighbors: </u>";
